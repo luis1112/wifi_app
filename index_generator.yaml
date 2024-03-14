@@ -1,0 +1,8 @@
+index_generator:
+  exclude:
+    - '**.g.dart'
+    - '{_,**/_}*.dart'
+  indexes:
+    # Default index and library name
+    - path: lib
+      name: docs

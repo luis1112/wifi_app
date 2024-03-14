@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "729887046063",
+    "project_id": "wifapp-55924",
+    "storage_bucket": "wifapp-55924.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:729887046063:android:9bd5b0a272fc02362d575a",
+        "android_client_info": {
+          "package_name": "com.unl.wifi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "729887046063-un067ia9tpacip3iq0v6dmn68er591f8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.unl.wifi",
+            "certificate_hash": "75d00b95b0f32afb1e456e1c2cb915a7c93b1b3f"
+          }
+        },
+        {
+          "client_id": "729887046063-re2bqe4n6mb074josoj27vhol0if758v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIY5N9T7LVpwDI_kLe4GTIxuQPMCdTjMQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "729887046063-re2bqe4n6mb074josoj27vhol0if758v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
