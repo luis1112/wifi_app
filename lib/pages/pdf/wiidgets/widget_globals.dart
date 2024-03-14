@@ -27,14 +27,14 @@ Widget itemTextGPdf(String? label, String? text) {
         Text(
           label ?? "",
           style: TextStyle(
-            fontSize: 16.0,
+            fontSize: 14.0,
             fontWeight: FontWeight.normal,
           ),
         ),
         Text(
           text ?? "",
           style: TextStyle(
-            fontSize: 20.0,
+            fontSize: 16.0,
             fontWeight: FontWeight.normal,
           ),
         ),

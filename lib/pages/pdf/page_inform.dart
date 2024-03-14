@@ -87,8 +87,11 @@ class _PageInformState extends State<PageInform> {
                 controller: sVelocity,
                 child: AspectRatio(
                   aspectRatio: 1.9,
-                  child: itemChartVelocity(
-                      pvC.listPoints, pvC.level, pvC.limitCount),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: itemChartVelocity(
+                        pvC.listPoints, pvC.level, pvC.limitCount),
+                  ),
                 ),
               ),
               itemTextTitle("Gráfica de canales"),
@@ -96,7 +99,11 @@ class _PageInformState extends State<PageInform> {
                 controller: sChanel,
                 child: AspectRatio(
                   aspectRatio: 0.9,
-                  child: LineChart(itemChartChanel(pvC.lineBarsData)),
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        right: 150.0, top: 20.0, left: 20.0),
+                    child: LineChart(itemChartChanel(pvC.lineBarsData)),
+                  ),
                 ),
               ),
               itemTextTitle("Puntos de red para canales"),
@@ -106,7 +113,10 @@ class _PageInformState extends State<PageInform> {
                 controller: sSignal,
                 child: AspectRatio(
                   aspectRatio: 0.7,
-                  child: itemChartSignal(pvC.listSignal, pvC.limitCount),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: itemChartSignal(pvC.listSignal, pvC.limitCount),
+                  ),
                 ),
               ),
               itemTextTitle("Puntos de red para señal"),
