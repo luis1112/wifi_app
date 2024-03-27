@@ -1,4 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:wifi/docs.dart';
 
@@ -18,7 +19,7 @@ class _PageChanelState extends State<PageChanel> {
 
     return Scaffold(
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(10.0).copyWith(bottom: 80.0),
         child: Column(
           children: [
             Row(
@@ -68,8 +69,8 @@ class _PageChanelState extends State<PageChanel> {
             const SizedBox(height: 20.0),
             Stack(
               children: [
-                AspectRatio(
-                  aspectRatio: 0.9,
+                SizedBox(
+                  height: 300.0,
                   child: LineChart(itemChartChanel(pvC.lineBarsData)),
                 ),
                 if (pvC.isActiveNetwork)

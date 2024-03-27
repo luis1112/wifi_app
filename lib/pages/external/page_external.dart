@@ -16,7 +16,7 @@ class _PageExternalState extends State<PageExternal> {
     pvC = ProviderConnection.of(context, true);
     return Scaffold(
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20.0).copyWith(bottom: 80.0),
         child: itemExternalData(pvC.external, pvC.getTypeConnection),
       ),
     );

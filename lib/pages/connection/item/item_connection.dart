@@ -15,7 +15,8 @@ Widget itemConnection(ItemConnection? c, String? getTypeConnection) {
       itemTextG("MAC:", c?.bssid),
       itemTextG("Señal:", "${c?.signal} dBm"),
       itemTextG("Frecuencia:", c?.freq),
-      itemTextG("Ancho de banda:", c?.chanel),
+      itemTextG("Ancho de banda:", c?.chanelWidth),
+      itemTextG("Canal:", c?.chanel),
       const DividerC(),
       itemTextG("Dirección IP:", c?.ipV4),
       itemTextG("Dirección IPV6:", c?.ipV6),
@@ -25,6 +26,7 @@ Widget itemConnection(ItemConnection? c, String? getTypeConnection) {
       const DividerC(),
       itemTextG("Latitud:", c?.latitude),
       itemTextG("Longitud:", c?.longitude),
+      itemTextG("Nombre del router:", c?.brandRouter),
       itemTextG("Distancia aproximada al router:", c?.distance),
     ],
   );
@@ -33,23 +35,22 @@ Widget itemConnection(ItemConnection? c, String? getTypeConnection) {
 Widget itemTextG(String? label, String? text) {
   return Container(
     margin: const EdgeInsets.only(bottom: 10.0),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
+    child: Wrap(
+      crossAxisAlignment: WrapCrossAlignment.start,
       children: [
         Text(
           label ?? "",
           style: const TextStyle(
-            fontSize: 14.0,
+            fontSize: 12.0,
             fontWeight: FontWeight.w400,
             color: Colors.grey,
           ),
         ),
+        const SizedBox(width: 5.0),
         Text(
           text ?? "",
           style: const TextStyle(
-            fontSize: 16.0,
+            fontSize: 14.0,
             fontWeight: FontWeight.w400,
           ),
         ),
@@ -63,6 +64,8 @@ class DividerC extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Divider(thickness: 1, color: Theme.of(context).primaryColor);
+    return Divider(thickness: 1, color: Theme
+        .of(context)
+        .primaryColor);
   }
 }

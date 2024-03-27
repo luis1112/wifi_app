@@ -22,7 +22,14 @@ class UtilPreference {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return await prefs.remove(stateEmpty);
   }
-
 }
 
+Future<bool> setStringPreference(String key, String value) async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  return await prefs.setString(key, value);
+}
 
+Future<String?> getStringPreference(String key) async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.getString(key);
+}

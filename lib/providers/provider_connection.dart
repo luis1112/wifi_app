@@ -17,12 +17,6 @@ class ProviderConnection with ChangeNotifier {
 
   notify() => notifyListeners();
 
-  //controllers
-  AccessPointController accessC = AccessPointController();
-  Timer? timerSaveFirebase;
-
-  //controllers
-
   bool isEnabled = false;
   bool wifiConnected = false;
   bool mobileDataConnected = false;
@@ -61,31 +55,9 @@ class ProviderConnection with ChangeNotifier {
   initListen() {
     initEnabled();
     initConnected();
-    initSaveDataFirebase();
-    Future.delayed(const Duration(seconds: 4), () => saveDataFirebase());
-  }
-
-  initSaveDataFirebase() {
-    timerSaveFirebase?.cancel();
-    timerSaveFirebase =
-        Timer.periodic(const Duration(minutes: 1), (timer) async {
-      saveDataFirebase();
-    });
   }
 
   int limit = 30;
-
-  saveDataFirebase() {
-    //save connection
-    // Timer.periodic(const Duration(seconds: 2), (timer) async {
-    if (isEnabled && wifiConnected) {
-      printC("GUARDANDO INFORMACIÓN");
-      accessC.saveConnection(connection, external);
-      accessC.saveSignalConnection(connection);
-      accessC.saveAccessPointConnection(connection, accessPoints);
-    }
-    // });
-  }
 
   initEnabled() async {
     isEnabled = await WiFiForIoTPlugin.isEnabled();
@@ -113,17 +85,25 @@ class ProviderConnection with ChangeNotifier {
     });
     //freq
     WiFiForIoTPlugin.getFrequency().then((v) {
-      var freq = (v ?? 2422) / 1000;
-      connection = connection.copyWith(freq: "${freq.toStringAsFixed(2)} GHZ");
+      var freq = (v ?? 2422);
+      var channel = calculateChannel(freq);
+      connection = connection.copyWith(
+        freq: "${(freq / 1000).toStringAsFixed(2)} GHZ",
+        chanel: channel,
+      );
       notify();
     });
     final info = NetworkInfo();
     //bssid
-    info.getWifiBSSID().then((v) {
+    info.getWifiBSSID().then((v) async {
       connection = connection.copyWith(bssid: v);
       if (v != null) {
-        var chanel = getChanelWifi(v);
-        connection = connection.copyWith(chanel: chanel);
+        var chanelWidth = getChanelWidthWifi(v);
+        var brandRouter = await UtilInfoDevice.getBrandRouter(v);
+        connection = connection.copyWith(
+          chanelWidth: chanelWidth,
+          brandRouter: brandRouter,
+        );
       }
       notify();
     });
@@ -157,6 +137,7 @@ class ProviderConnection with ChangeNotifier {
     connection = connection.copyWith(longitude: external?.longitude.toString());
     connection = connection.copyWith(uuid: DeviceInfo.uuid);
     //save in firebase
+    // printC(connection.toJson());
   }
 
   double calculateDistanceRouter(int rssi) {
@@ -169,11 +150,20 @@ class ProviderConnection with ChangeNotifier {
     return double.parse(distancia.toStringAsFixed(2));
   }
 
-  String? getChanelWifi(String bssid) {
+  String? getChanelWidthWifi(String bssid) {
     var v = accessPoints.where((e) => e.bssid == bssid).firstOrNull;
     var channelWidth = v?.channelWidth;
     if (channelWidth != null) return "$channelWidth mhz";
     return null;
+  }
+
+  String calculateChannel(int frequency) {
+    if (frequency >= 2412 && frequency <= 2484) {
+      return ((frequency - 2412) ~/ 5 + 1).toString();
+    } else if (frequency >= 5180 && frequency <= 5825) {
+      return (((frequency - 5180) ~/ 5) + 36).toString();
+    }
+    return 'Desconocido';
   }
 
   initConnected() {

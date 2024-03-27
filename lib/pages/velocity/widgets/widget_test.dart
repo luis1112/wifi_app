@@ -10,35 +10,25 @@ class TestPageCustom extends StatefulWidget {
 }
 
 class _TestPageCustomState extends State<TestPageCustom> {
-  final internetSpeedTest = FlutterInternetSpeedTest()..enableLog();
-
-  bool _testInProgress = false;
-  double _downloadProgress = 0.0;
-  double _uploadProgress = 0.0;
-  TestResult? testDownload;
-  TestResult? testUpload;
-  bool _isServerSelectionInProgress = false;
-
-  String? _ip;
-  String? _asn;
-  String? _isp;
+  ProviderTest pvT = ProviderTest.of();
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      reset();
+      pvT.reset();
     });
   }
 
   @override
   void dispose() {
-    internetSpeedTest.cancelTest();
+    pvT.internetSpeedTest.cancelTest();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    pvT = ProviderTest.of(context, true);
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -58,12 +48,12 @@ class _TestPageCustomState extends State<TestPageCustom> {
               ),
               child: Column(
                 children: [
-                  if (!_testInProgress) ...{
+                  if (!pvT.testInProgress) ...{
                     itemCircleStart(),
-                  } else if (testUpload != null) ...{
-                    itemCircle(testUpload, Colors.blue),
+                  } else if (pvT.testUpload != null) ...{
+                    itemCircle(pvT.testUpload, Colors.blue),
                   } else ...{
-                    itemCircle(testDownload, Colors.green),
+                    itemCircle(pvT.testDownload, Colors.green),
                   },
                 ],
               ),
@@ -75,11 +65,12 @@ class _TestPageCustomState extends State<TestPageCustom> {
             child: Row(
               children: [
                 Expanded(
-                  child: itemData('DESCARGA', _downloadProgress, testDownload),
+                  child: itemData(
+                      'DESCARGA', pvT.downloadProgress, pvT.testDownload),
                 ),
                 const SizedBox(width: 5.0),
                 Expanded(
-                  child: itemData('SUBIDA', _uploadProgress, testUpload),
+                  child: itemData('SUBIDA', pvT.uploadProgress, pvT.testUpload),
                 ),
               ],
             ),
@@ -88,10 +79,10 @@ class _TestPageCustomState extends State<TestPageCustom> {
           Padding(
             padding: const EdgeInsets.only(bottom: 16.0),
             child: Text(
-              _isServerSelectionInProgress
+              pvT.isServerSelectionInProgress
                   ? 'Seleccionando servidor...'
-                  : 'IP: ${_ip ?? '--'} | ASP: ${_asn ?? '--'}'
-                      ' ${_isp != null ? '| ISP:$_isp' : ''}',
+                  : 'IP: ${pvT.ip ?? '--'} | ASP: ${pvT.asn ?? '--'}'
+                      ' ${pvT.isp != null ? '| ISP:${pvT.isp}' : ''}',
               style: const TextStyle(
                 fontSize: 12.0,
               ),
@@ -117,7 +108,7 @@ class _TestPageCustomState extends State<TestPageCustom> {
   Widget itemCircleStart() {
     return GestureDetector(
       onTap: () {
-        startScanning();
+        pvT.startScanning();
       },
       child: Container(
         width: 150.0,
@@ -181,90 +172,6 @@ class _TestPageCustomState extends State<TestPageCustom> {
           ],
         ),
       ),
-    );
-  }
-
-  void reset() {
-    setState(() {
-      _testInProgress = false;
-      _downloadProgress = 0.0;
-      _uploadProgress = 0.0;
-
-      testDownload = null;
-      testUpload = null;
-
-      _ip = null;
-      _asn = null;
-      _isp = null;
-    });
-  }
-
-  startScanning() async {
-    reset();
-    await internetSpeedTest.startTesting(
-      onStarted: () {
-        setState(() => _testInProgress = true);
-      },
-      onCompleted: (TestResult d, TestResult u) {
-        setState(() {
-          testDownload = d;
-          _downloadProgress = 100.0;
-        });
-        setState(() {
-          _uploadProgress = 100.0;
-          _testInProgress = false;
-        });
-        ModelTest test = ModelTest(
-          rateDownload: d.transferRate,
-          unitDownload: d.unit.name,
-          durationInMillisDownload: d.durationInMillis,
-          rateUpload: u.transferRate,
-          unitUpload: u.unit.name,
-          durationInMillisUpload: u.durationInMillis,
-        );
-        var pvC = ProviderConnection.of();
-        AccessPointController().saveTestConnection(pvC.connection, test);
-      },
-      onProgress: (double percent, TestResult data) {
-        setState(() {
-          if (data.type == TestType.download) {
-            testDownload = data;
-            _downloadProgress = percent;
-          } else {
-            testUpload = data;
-            _uploadProgress = percent;
-          }
-        });
-      },
-      onError: (String errorMessage, String speedTestError) {
-        reset();
-      },
-      onDefaultServerSelectionInProgress: () {
-        setState(() {
-          _isServerSelectionInProgress = true;
-        });
-      },
-      onDefaultServerSelectionDone: (Client? client) {
-        setState(() {
-          _isServerSelectionInProgress = false;
-          _ip = client?.ip;
-          _asn = client?.asn;
-          _isp = client?.isp;
-        });
-      },
-      onDownloadComplete: (TestResult data) {
-        setState(() {
-          testDownload = data;
-        });
-      },
-      onUploadComplete: (TestResult data) {
-        setState(() {
-          testUpload = data;
-        });
-      },
-      onCancel: () {
-        reset();
-      },
     );
   }
 

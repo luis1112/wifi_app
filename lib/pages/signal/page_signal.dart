@@ -19,7 +19,7 @@ class _PageSignalState extends State<PageSignal> {
     pvC = ProviderConnection.of(context, true);
     return Scaffold(
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(10.0).copyWith(bottom: 80.0),
         child: Column(
           children: [
             Row(

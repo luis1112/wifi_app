@@ -20,7 +20,6 @@ class UtilInfoDevice {
     return ipPublic;
   }
 
-
   static Future<String> getIPAddress() async {
     String ipAddress = "";
     try {
@@ -117,11 +116,26 @@ class UtilInfoDevice {
 
   static Future<ExternalConnection?> getRedInfo(String ipPublic) async {
     try {
-      var request = await http.get(Uri.parse("https://ipwho.is/$ipPublic"));
-      var body = jsonDecode(request.body);
+      var req = await http.get(Uri.parse("https://ipwho.is/$ipPublic"));
+      var body = jsonDecode(req.body);
       return ExternalConnection.fromJson(body);
     } catch (err) {
       return null;
+    }
+  }
+
+  static Future<String> getBrandRouter(String bssid) async {
+    try {
+      String? brand = await getStringPreference(bssid);
+      if (brand != null) return brand;
+      var req = await http
+          .get(Uri.parse("https://www.macvendorlookup.com/api/v2/$bssid"));
+      var body = json.decode(req.body);
+      brand = body[0]["company"];
+      if (brand != null) await setStringPreference(bssid, brand);
+      return brand ?? "Desconocido";
+    } catch (err) {
+      return "Desconocido";
     }
   }
 }

@@ -6,6 +6,8 @@ List<SingleChildWidget> get providers {
   return [
     ChangeNotifierProvider(create: (_) => ProviderGlobal()),
     ChangeNotifierProvider(create: (_) => ProviderConnection()),
+    ChangeNotifierProvider(create: (_) => ProviderTest()),
+    ChangeNotifierProvider(create: (_) => ProviderFirebase()),
     ChangeNotifierProvider(create: (_) => ProviderLogin()),
   ];
 }

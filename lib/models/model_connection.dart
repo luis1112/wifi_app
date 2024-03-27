@@ -13,7 +13,9 @@ class ItemConnection {
   final String distance;
   final String latitude;
   final String longitude;
+  final String chanelWidth;
   final String chanel;
+  final String brandRouter;
   final String uuid;
 
   ItemConnection({
@@ -29,7 +31,9 @@ class ItemConnection {
     this.distance = "",
     this.latitude = "",
     this.longitude = "",
+    this.chanelWidth = "",
     this.chanel = "",
+    this.brandRouter = "",
     required this.uuid,
   });
 
@@ -46,7 +50,9 @@ class ItemConnection {
     String? distance,
     String? latitude,
     String? longitude,
+    String? chanelWidth,
     String? chanel,
+    String? brandRouter,
     String? uuid,
   }) {
     return ItemConnection(
@@ -62,7 +68,9 @@ class ItemConnection {
       distance: distance ?? this.distance,
       latitude: latitude ?? this.latitude,
       longitude: longitude ?? this.longitude,
+      chanelWidth: chanelWidth ?? this.chanelWidth,
       chanel: chanel ?? this.chanel,
+      brandRouter: brandRouter ?? this.brandRouter,
       uuid: uuid ?? this.uuid,
     );
   }
@@ -81,7 +89,9 @@ class ItemConnection {
       distance: parseString(json['distance']),
       latitude: parseString(json['latitude']),
       longitude: parseString(json['longitude']),
+      chanelWidth: parseString(json['chanelWidth']),
       chanel: parseString(json['chanel']),
+      brandRouter: parseString(json['brandRouter']),
       uuid: parseString(json['uuid']),
     );
   }
@@ -100,7 +110,9 @@ class ItemConnection {
       'distance': distance,
       'latitude': latitude,
       'longitude': longitude,
+      'chanelWidth': chanelWidth,
       'chanel': chanel,
+      'brandRouter': brandRouter,
       'uuid': uuid,
     };
   }

@@ -19,22 +19,21 @@ Widget itemTextTitlePdf(String title) {
 Widget itemTextGPdf(String? label, String? text) {
   return Container(
     margin: const EdgeInsets.only(bottom: 10.0),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
+    child: Wrap(
+      crossAxisAlignment: WrapCrossAlignment.start,
       children: [
         Text(
           label ?? "",
           style: TextStyle(
-            fontSize: 14.0,
+            fontSize: 12.0,
             fontWeight: FontWeight.normal,
           ),
         ),
+        SizedBox(width: 5.0),
         Text(
           text ?? "",
           style: TextStyle(
-            fontSize: 16.0,
+            fontSize: 14.0,
             fontWeight: FontWeight.normal,
           ),
         ),

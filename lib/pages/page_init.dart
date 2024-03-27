@@ -14,6 +14,7 @@ class _PageInitState extends State<PageInit> {
   List<ModelTab> listTabs = [];
   ProviderConnection pvC = ProviderConnection.of();
   ProviderLogin pvL = ProviderLogin.of();
+  ProviderFirebase pvF = ProviderFirebase.of();
   UserModel? user;
 
   @override
@@ -35,6 +36,7 @@ class _PageInitState extends State<PageInit> {
   Widget build(BuildContext context) {
     pvL = ProviderLogin.of(context, true);
     pvC = ProviderConnection.of(context, true);
+    pvF = ProviderFirebase.of(context, true);
     if (user == null) {
       return const Scaffold(
         body: Center(
@@ -50,7 +52,7 @@ class _PageInitState extends State<PageInit> {
       ModelTab("Canales", const PageChanel()),
       ModelTab("Señal", const PageSignal()),
       ModelTab("Puntos de acceso", const PageAccessPoint()),
-      ModelTab("Informe", const PageInform()),
+      // ModelTab("Informe", const PageInform()),
     ];
     return DefaultTabController(
       length: listTabs.length,
@@ -81,14 +83,19 @@ class _PageInitState extends State<PageInit> {
             return item.child;
           }),
         ),
-        // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        // floatingActionButton: BtnC(
-        //   title: "Guardar información",
-        //   onTap: () {
-        //
-        //   },
-        // ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: itemFloatingActionButton(),
       ),
+    );
+  }
+
+  Widget? itemFloatingActionButton() {
+    if (!pvC.wifiConnected) return null;
+    return BtnC(
+      title: pvF.isTransfer ? "Sincronizando ${pvF.formatMinutes}" : "Guardar información",
+      onTap: () {
+        pvF.initSave();
+      },
     );
   }
 }

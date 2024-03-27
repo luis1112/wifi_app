@@ -115,9 +115,10 @@ Widget bottomTitleWidgetsChanel(double value, TitleMeta meta) {
   if (value.toInt() == 3) text = '40';
   if (value.toInt() == 4) text = '60';
   if (value.toInt() == 5) text = '80';
-  if (value.toInt() == 6) text = '';
+  if (value.toInt() == 6) text = '90';
   if (value.toInt() == 7) text = '120';
-  if (value.toInt() == 8) text = '140';
+  // if (value.toInt() == 8) text = '140';
+  if (value.toInt() == 8) text = '';
   if (value.toInt() == 9) text = '160';
   return Text(text, textAlign: TextAlign.left);
 }

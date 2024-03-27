@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "729887046063-un067ia9tpacip3iq0v6dmn68er591f8.apps.googleusercontent.com",
+          "client_id": "729887046063-0v1vk5f4g2jde9a4ubmek8d76s3ahelg.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.unl.wifi",
-            "certificate_hash": "75d00b95b0f32afb1e456e1c2cb915a7c93b1b3f"
+            "certificate_hash": "377daa0c8dd2b6793aec739ef5274b33e51f9139"
           }
         },
         {

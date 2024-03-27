@@ -42,7 +42,7 @@ LineChartData itemChartChanel(List<ItemChartChanel> lineBarsData) {
     ),
     minX: 0,
     // maxX: 11,
-    maxX: 6,
+    maxX: 8,
     minY: 0,
     maxY: 7,
     lineTouchData: const LineTouchData(enabled: false),

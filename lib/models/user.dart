@@ -10,7 +10,7 @@ class UserModel {
     required this.names,
     required this.photoUrl,
     required this.email,
-    this.rol = "app,web",
+    this.rol = "app",
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {

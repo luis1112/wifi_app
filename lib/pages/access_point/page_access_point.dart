@@ -17,7 +17,7 @@ class _PageAccessPointState extends State<PageAccessPoint> {
     return Scaffold(
       body: ListView.builder(
         itemCount: pvC.accessPoints.length,
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20.0).copyWith(bottom: 80.0),
         itemBuilder: (_, i) {
           var e = pvC.accessPoints[i];
           var title = e.ssid.trim().isNotEmpty ? e.ssid : "-------";

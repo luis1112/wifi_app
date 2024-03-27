@@ -11,14 +11,13 @@ class PageTest extends StatefulWidget {
 class _PageTestState extends State<PageTest> {
   ProviderConnection pvC = ProviderConnection.of();
 
-
   @override
   Widget build(BuildContext context) {
     pvC = ProviderConnection.of(context, true);
-    return const Scaffold(
+    return Scaffold(
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(20.0),
-        child: Column(
+        padding: const EdgeInsets.all(20.0).copyWith(bottom: 80.0),
+        child: const Column(
           children: [
             SizedBox(height: 10.0),
             TestPageCustom(),

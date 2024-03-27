@@ -52,6 +52,9 @@ class _PageLoginState extends State<PageLogin> {
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(20.0),
                       ),
+                      constraints: const BoxConstraints(
+                        maxWidth: 350.0,
+                      ),
                       child: Image.asset(
                         "assets/image/logo_horizontal.png",
                         height: 60.0,
