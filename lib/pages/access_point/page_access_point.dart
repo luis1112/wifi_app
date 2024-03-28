@@ -43,7 +43,7 @@ class _PageAccessPointState extends State<PageAccessPoint> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Text("CH $channelWidth"),
+                Text("CH ${e.chanel}"),
                 Text("${(e.frequency / 1000).toStringAsFixed(2)}GHz"),
               ],
             ),

@@ -10,8 +10,7 @@ class ProviderTest with ChangeNotifier {
 
   notify() => notifyListeners();
 
-  FlutterInternetSpeedTest internetSpeedTest = FlutterInternetSpeedTest()
-    ..disableLog();
+  FlutterInternetSpeedTest speedTest = FlutterInternetSpeedTest()..disableLog();
 
   bool testInProgress = false;
   double downloadProgress = 0.0;
@@ -24,8 +23,12 @@ class ProviderTest with ChangeNotifier {
   String? asn;
   String? isp;
 
+  //model
+  ModelTest? test;
+
   void reset() {
-    internetSpeedTest = FlutterInternetSpeedTest()..disableLog();
+    // if (speedTest.isTestInProgress()) speedTest.cancelTest();
+    speedTest = FlutterInternetSpeedTest()..disableLog();
     testInProgress = false;
     downloadProgress = 0.0;
     uploadProgress = 0.0;
@@ -40,8 +43,9 @@ class ProviderTest with ChangeNotifier {
   }
 
   startScanning() async {
+    if (speedTest.isTestInProgress()) return null;
     reset();
-    await internetSpeedTest.startTesting(
+    await speedTest.startTesting(
       onStarted: () {
         testInProgress = true;
         notify();
@@ -53,7 +57,7 @@ class ProviderTest with ChangeNotifier {
         uploadProgress = 100.0;
         testInProgress = false;
         notify();
-        ModelTest test = ModelTest(
+        test = ModelTest(
           rateDownload: d.transferRate,
           unitDownload: d.unit.name,
           durationInMillisDownload: d.durationInMillis,
@@ -61,8 +65,6 @@ class ProviderTest with ChangeNotifier {
           unitUpload: u.unit.name,
           durationInMillisUpload: u.durationInMillis,
         );
-        var pvC = ProviderConnection.of();
-        AccessPointController().saveTestConnection(pvC.connection, test);
       },
       onProgress: (double percent, TestResult data) {
         if (data.type == TestType.download) {

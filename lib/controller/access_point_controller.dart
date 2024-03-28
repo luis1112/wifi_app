@@ -3,30 +3,38 @@ import 'dart:convert';
 import 'package:wifi/docs.dart';
 
 class AccessPointController {
-
   String getIdConnection(ItemConnection connection) {
     var bssid = connection.bssid;
     var uuid = connection.uuid;
     return "$bssid-$uuid";
   }
 
-  void saveConnection(ItemConnection c, ExternalConnection? e) async {
+  String getIdAnalysis(DateTime dateTime) {
+    return "${dateTime.millisecondsSinceEpoch}";
+  }
+
+  Future<void> saveConnection(ItemConnection c) async {
     try {
       if (c.bssid.trim().isEmpty) return;
       var id = getIdConnection(c);
       var docC = fConnections.doc(id);
       await docC.set(c.toJson());
-      saveExternalConnection(c, e);
     } catch (err) {
       printC('Error adding ItemConnection ${c.bssid}: $err');
     }
   }
 
-  void saveExternalConnection(ItemConnection c, ExternalConnection? e) async {
+  //save children of connection
+  void saveExternal(
+    ItemConnection c,
+    ExternalConnection? e,
+    DateTime dateTime,
+  ) async {
     try {
       if (e == null) return;
       var id = getIdConnection(c);
-      var docRef = fConnections.doc(id);
+      var idAnalysis = getIdAnalysis(dateTime);
+      var docRef = fAnalysis(id).doc(idAnalysis);
       var subRef = docRef.collection('external');
       var docs = (await subRef.get()).docs;
       var eData = docs.firstOrNull;
@@ -40,11 +48,16 @@ class AccessPointController {
     }
   }
 
-  void saveTestConnection(ItemConnection c, ModelTest? test) async {
+  void saveTest(
+    ItemConnection c,
+    ModelTest? test,
+    DateTime dateTime,
+  ) async {
     try {
       if (test == null) return;
       var id = getIdConnection(c);
-      var docRef = fConnections.doc(id);
+      var idAnalysis = getIdAnalysis(dateTime);
+      var docRef = fAnalysis(id).doc(idAnalysis);
       var subRef = docRef.collection('testConnection');
       var docs = (await subRef.get()).docs;
       var eData = docs.firstOrNull;
@@ -58,11 +71,11 @@ class AccessPointController {
     }
   }
 
-
-  void saveSignalConnection(ItemConnection connection) async {
+  void saveSignal(ItemConnection connection, DateTime dateTime) async {
     try {
       var id = getIdConnection(connection);
-      var docRef = fConnections.doc(id);
+      var idAnalysis = getIdAnalysis(dateTime);
+      var docRef = fAnalysis(id).doc(idAnalysis);
       var subRef = docRef.collection('signals');
       await subRef.add({
         "signal": connection.signal,
@@ -74,11 +87,16 @@ class AccessPointController {
     }
   }
 
-  void saveAccessPointConnection(ItemConnection c, List<AccessPoint> l) async {
+  void saveAccessPoint(
+    ItemConnection c,
+    List<AccessPoint> l,
+    DateTime dateTime,
+  ) async {
     try {
       if (l.isEmpty) return;
       var id = getIdConnection(c);
-      var docRef = fConnections.doc(id);
+      var idAnalysis = getIdAnalysis(dateTime);
+      var docRef = fAnalysis(id).doc(idAnalysis);
       var subRef = docRef.collection('accessPoints');
       var list = l.map((e) => e.toJson()).toList();
       await subRef.add({

@@ -12,7 +12,7 @@ Widget itemConnectionPdf(ItemConnection? c) {
       itemTextGPdf("Señal:", "${c?.signal} dBm"),
       itemTextGPdf("Frecuencia:", c?.freq),
       itemTextGPdf("Ancho de banda:", c?.chanelWidth),
-      itemTextGPdf("Canal:", c?.chanel),
+      itemTextGPdf("Canal:", c?.chanel.toString()),
       Divider(),
       itemTextGPdf("Dirección IP:", c?.ipV4),
       itemTextGPdf("Dirección IPV6:", c?.ipV6),

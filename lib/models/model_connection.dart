@@ -14,7 +14,7 @@ class ItemConnection {
   final String latitude;
   final String longitude;
   final String chanelWidth;
-  final String chanel;
+  final int chanel;
   final String brandRouter;
   final String uuid;
 
@@ -32,7 +32,7 @@ class ItemConnection {
     this.latitude = "",
     this.longitude = "",
     this.chanelWidth = "",
-    this.chanel = "",
+    this.chanel = 0,
     this.brandRouter = "",
     required this.uuid,
   });
@@ -51,7 +51,7 @@ class ItemConnection {
     String? latitude,
     String? longitude,
     String? chanelWidth,
-    String? chanel,
+    int? chanel,
     String? brandRouter,
     String? uuid,
   }) {
@@ -90,7 +90,7 @@ class ItemConnection {
       latitude: parseString(json['latitude']),
       longitude: parseString(json['longitude']),
       chanelWidth: parseString(json['chanelWidth']),
-      chanel: parseString(json['chanel']),
+      chanel: parseInt(json['chanel']),
       brandRouter: parseString(json['brandRouter']),
       uuid: parseString(json['uuid']),
     );

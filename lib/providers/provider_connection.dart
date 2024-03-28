@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -47,9 +46,11 @@ class ProviderConnection with ChangeNotifier {
   int level = 0;
 
   String get getTypeConnection {
-    String value = "WiFi - ${wifiConnected ? "Conectado" : "Desconectado"}\n"
-        "Datos móviles - ${mobileDataConnected ? "Conectado" : "Desconectado"}";
-    return value;
+    if (wifiConnected) {
+      return "WiFi - ${wifiConnected ? "Conectado" : "Desconectado"}";
+    } else {
+      return "Datos móviles - ${mobileDataConnected ? "Conectado" : "Desconectado"}";
+    }
   }
 
   initListen() {
@@ -98,7 +99,7 @@ class ProviderConnection with ChangeNotifier {
     info.getWifiBSSID().then((v) async {
       connection = connection.copyWith(bssid: v);
       if (v != null) {
-        var chanelWidth = getChanelWidthWifi(v);
+        var chanelWidth = getChanelWidthWifi(accessPoints, v);
         var brandRouter = await UtilInfoDevice.getBrandRouter(v);
         connection = connection.copyWith(
           chanelWidth: chanelWidth,
@@ -140,32 +141,6 @@ class ProviderConnection with ChangeNotifier {
     // printC(connection.toJson());
   }
 
-  double calculateDistanceRouter(int rssi) {
-    // Constantes para el modelo de pérdida de ruta (Path Loss Model)
-    double n = 2; // Exponente de atenuación (generalmente entre 2 y 4)
-    double A = -50; // Valor de referencia del RSSI a 1 metro de distancia
-
-    // Fórmula para calcular la distancia
-    double distancia = pow(10, ((A - rssi) / (10 * n))).toDouble();
-    return double.parse(distancia.toStringAsFixed(2));
-  }
-
-  String? getChanelWidthWifi(String bssid) {
-    var v = accessPoints.where((e) => e.bssid == bssid).firstOrNull;
-    var channelWidth = v?.channelWidth;
-    if (channelWidth != null) return "$channelWidth mhz";
-    return null;
-  }
-
-  String calculateChannel(int frequency) {
-    if (frequency >= 2412 && frequency <= 2484) {
-      return ((frequency - 2412) ~/ 5 + 1).toString();
-    } else if (frequency >= 5180 && frequency <= 5825) {
-      return (((frequency - 5180) ~/ 5) + 36).toString();
-    }
-    return 'Desconocido';
-  }
-
   initConnected() {
     Connectivity().onConnectivityChanged.listen((event) async {
       mobileDataConnected = event == ConnectivityResult.mobile;
@@ -175,11 +150,15 @@ class ProviderConnection with ChangeNotifier {
         getDataConnection();
         wifiConnected = true;
         external = await UtilInfoDevice.getRedInfo(DeviceInfo.ipPublic);
+        // test
+        ProviderTest.of().startScanning();
       } else {
         wifiConnected = false;
         accessPoints = [];
         external = null;
         connection = ItemConnection(uuid: DeviceInfo.uuid);
+        // test
+        ProviderTest.of().reset();
       }
       notify();
     });
@@ -199,6 +178,7 @@ class ProviderConnection with ChangeNotifier {
           level: e.level,
           channelWidth: parseInt(chanel, 20),
           frequency: e.frequency,
+          chanel: calculateChannel(e.frequency),
           centerFrequency0: e.centerFrequency0 ?? 2400,
           centerFrequency1: e.centerFrequency1 ?? 2400,
           venueName: e.venueName ?? "",

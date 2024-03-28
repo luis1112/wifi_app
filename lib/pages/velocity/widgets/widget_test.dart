@@ -22,7 +22,7 @@ class _TestPageCustomState extends State<TestPageCustom> {
 
   @override
   void dispose() {
-    pvT.internetSpeedTest.cancelTest();
+    pvT.speedTest.cancelTest();
     super.dispose();
   }
 

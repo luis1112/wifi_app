@@ -51,6 +51,7 @@ export 'providers/provider_login.dart';
 export 'providers/provider_test.dart';
 export 'routes/routes_pages.dart';
 export 'routes/routes_providers.dart';
+export 'utils/util_connection.dart';
 export 'utils/util_info_device.dart';
 export 'utils/util_navigator.dart';
 export 'utils/util_parser.dart';

@@ -13,27 +13,33 @@ class ProviderFirebase with ChangeNotifier {
   AccessPointController accessC = AccessPointController();
 
   //
-  Duration _duration = const Duration(seconds: 30);
+  Duration _duration = const Duration(seconds: 60);
   Timer? _timerOtp;
   bool isTransfer = false;
+  DateTime dateTimeAnalysis = DateTime.now();
+  int secondPassed = 0;
 
   initSave() async {
     if (isTransfer) return;
     printC("EMPEZANDO A GUARDAR INFORMACION");
-    Duration duration = const Duration(seconds: 30);
+    Duration duration = const Duration(seconds: 60);
     _duration = duration;
     _timerOtp?.cancel();
     int secondsProgress = duration.inSeconds;
     int seconds = duration.inSeconds;
     DateTime now1 = DateTime.now();
+    dateTimeAnalysis = now1;
     isTransfer = true;
+    secondPassed = 0;
+    notify();
     //save
+    int secondSave = 0;
     saveDataFirebase();
     //save test
     ProviderTest.of().startScanning();
-    _timerOtp = Timer.periodic(const Duration(seconds: 2), (Timer timer) {
+    _timerOtp = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
       DateTime now2 = DateTime.now();
-      int secondPassed = now2.difference(now1).inSeconds;
+      secondPassed = now2.difference(now1).inSeconds;
       secondsProgress = seconds - secondPassed;
       _duration = Duration(seconds: secondsProgress);
       if (secondsProgress <= 0) {
@@ -41,23 +47,41 @@ class ProviderFirebase with ChangeNotifier {
         isTransfer = false;
       }
       notifyListeners();
-      //save
-      saveDataFirebase();
+      //save for each 2 seconds
+      secondSave++;
+      if (secondSave == 2) {
+        secondSave = 0;
+        saveDataFirebase();
+      }
     });
   }
 
-  saveDataFirebase() {
+  saveDataFirebase() async {
     //save connection
     var pvC = ProviderConnection.of();
+    var pvT = ProviderTest.of();
     if (pvC.isEnabled && pvC.wifiConnected) {
       printC("GUARDANDO INFORMACIÓN");
-      accessC.saveConnection(pvC.connection, pvC.external);
-      accessC.saveSignalConnection(pvC.connection);
-      accessC.saveAccessPointConnection(pvC.connection, pvC.accessPoints);
+      await accessC.saveConnection(pvC.connection);
+      //save analysis
+      if (pvT.test != null) {
+        accessC.saveTest(pvC.connection, pvT.test, dateTimeAnalysis);
+      }
+      accessC.saveExternal(pvC.connection, pvC.external, dateTimeAnalysis);
+      //save 30 seconds
+      if (secondPassed <= 30) {
+        accessC.saveSignal(pvC.connection, dateTimeAnalysis);
+        accessC.saveAccessPoint(
+            pvC.connection, pvC.accessPoints, dateTimeAnalysis);
+      }
     }
   }
 
   String get formatMinutes {
-    return _duration.toString().substring(2, 7);
+    try {
+      return _duration.toString().substring(2, 7);
+    } catch (e) {
+      return "";
+    }
   }
 }
