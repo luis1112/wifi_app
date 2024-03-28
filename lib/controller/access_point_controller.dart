@@ -25,6 +25,16 @@ class AccessPointController {
   }
 
   //save children of connection
+  saveAnalysis(ItemConnection c, DateTime dateTime) {
+    var id = getIdConnection(c);
+    var idAnalysis = getIdAnalysis(dateTime);
+    var docRef = fAnalysis(id).doc(idAnalysis);
+    docRef.set({
+      "uuid": c.uuid,
+      "time": dateTime.millisecondsSinceEpoch,
+    });
+  }
+
   void saveExternal(
     ItemConnection c,
     ExternalConnection? e,
@@ -71,15 +81,15 @@ class AccessPointController {
     }
   }
 
-  void saveSignal(ItemConnection connection, DateTime dateTime) async {
+  void saveSignal(ItemConnection c, DateTime dateTime) async {
     try {
-      var id = getIdConnection(connection);
+      var id = getIdConnection(c);
       var idAnalysis = getIdAnalysis(dateTime);
       var docRef = fAnalysis(id).doc(idAnalysis);
       var subRef = docRef.collection('signals');
       await subRef.add({
-        "signal": connection.signal,
-        "uuid": connection.uuid,
+        "signal": c.signal,
+        "uuid": c.uuid,
         "time": DateTime.now().millisecondsSinceEpoch,
       });
     } catch (e) {

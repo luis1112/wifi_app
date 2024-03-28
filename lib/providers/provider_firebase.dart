@@ -57,23 +57,22 @@ class ProviderFirebase with ChangeNotifier {
   }
 
   saveDataFirebase() async {
-    //save connection
     var pvC = ProviderConnection.of();
     var pvT = ProviderTest.of();
-    if (pvC.isEnabled && pvC.wifiConnected) {
-      printC("GUARDANDO INFORMACIÓN");
-      await accessC.saveConnection(pvC.connection);
-      //save analysis
-      if (pvT.test != null) {
-        accessC.saveTest(pvC.connection, pvT.test, dateTimeAnalysis);
-      }
-      accessC.saveExternal(pvC.connection, pvC.external, dateTimeAnalysis);
-      //save 30 seconds
-      if (secondPassed <= 30) {
-        accessC.saveSignal(pvC.connection, dateTimeAnalysis);
-        accessC.saveAccessPoint(
-            pvC.connection, pvC.accessPoints, dateTimeAnalysis);
-      }
+    var c = pvC.connection;
+    var dateTime = dateTimeAnalysis;
+    if (!pvC.wifiConnected) return; //for not connected
+    //save connection
+    printC("GUARDANDO INFORMACIÓN");
+    await accessC.saveConnection(pvC.connection);
+    //save analysis
+    accessC.saveAnalysis(c, dateTime);
+    accessC.saveTest(c, pvT.test, dateTime);
+    accessC.saveExternal(c, pvC.external, dateTime);
+    //save 30 seconds
+    if (secondPassed <= 30) {
+      accessC.saveSignal(c, dateTime);
+      accessC.saveAccessPoint(c, pvC.accessPoints, dateTime);
     }
   }
 
