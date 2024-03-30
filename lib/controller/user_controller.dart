@@ -4,7 +4,8 @@ class UserController {
   void addUser(UserModel user, DeviceModel device) async {
     try {
       var docU = fUsers.doc(user.email);
-      await docU.set(user.toJson());
+      var u = (await docU.get());
+      if (!u.exists) await docU.set(user.toJson());
       addDevice(user, device);
     } catch (e) {
       printC('Error adding user to Firestore: $e');
