@@ -38,17 +38,6 @@ LineChartBarData? listChartChanel(Color color, int chanel, int level) {
   return null;
 }
 
-// Color getColorChartChanel(int level) {
-//   var f = 100 - (level * -1);
-//   var x = (5.3 * f) / 60;
-//   Color color = Colors.red;
-//   if (x <= 1.5) return Colors.redAccent;
-//   if (x <= 2) return Colors.orange;
-//   if (x <= 3) return Colors.blue;
-//   if (x > 3) return Colors.green;
-//   return color;
-// }
-//
 Color generateUniqueRandomColor(List<Color> colors, int index, int seed) {
   final random = Random((seed * -1) + (index * 10));
   final r = random.nextInt(256); // Rojo
@@ -109,13 +98,13 @@ Widget itemNetworksChanel(List<ItemChartChanel> lineBarsData) {
   );
 }
 
-Widget bottomTitleWidgetsChanel(double value, TitleMeta meta) {
+Widget bottomTitleWidgetsChanel(double value, TitleMeta meta, bool isGhz2) {
   String text = "";
   if (value.toInt() == 2) text = '20';
   if (value.toInt() == 3) text = '40';
   if (value.toInt() == 4) text = '60';
   if (value.toInt() == 5) text = '80';
-  if (value.toInt() == 6) text = '90';
+  if (value.toInt() == 6) text = isGhz2 ? '' : '90';
   if (value.toInt() == 7) text = '120';
   // if (value.toInt() == 8) text = '140';
   if (value.toInt() == 8) text = '';

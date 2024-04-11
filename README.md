@@ -23,3 +23,6 @@ samples, guidance on mobile development, and a full API reference.
 ## For Export Docs
 - flutter pub global activate index_generator
 - flutter pub global run index_generator
+## For get SHA-1 and SHA-256
+- ./gradlew signingReport
+- keytool -list -v -keystore "%USERPROFILE%\.android\debug.keystore" -alias androiddebugkey -storepass android -keypass android

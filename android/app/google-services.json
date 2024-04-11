@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "729887046063-hk4ih5teg8hn7dknhju9hpiburtuop8j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.unl.wifi",
+            "certificate_hash": "76c7a28bb91d8a9a6e6658c3e9c8432b9c8829de"
+          }
+        },
+        {
           "client_id": "729887046063-re2bqe4n6mb074josoj27vhol0if758v.apps.googleusercontent.com",
           "client_type": 3
         }
