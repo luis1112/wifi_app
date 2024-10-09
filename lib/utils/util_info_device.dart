@@ -98,7 +98,7 @@ class UtilInfoDevice {
     DeviceInfo.mac = await getMac();
     //secure device
     DeviceInfo.safeIsRoot = await SafeDevice.isJailBroken;
-    DeviceInfo.safeCanMockLocation = await SafeDevice.canMockLocation;
+    DeviceInfo.safeCanMockLocation = await SafeDevice.isMockLocation;
     DeviceInfo.safeIsRealDevice = await SafeDevice.isRealDevice;
     // getSafeDevice();
     //info app
