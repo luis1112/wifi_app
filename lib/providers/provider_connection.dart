@@ -169,7 +169,7 @@ class ProviderConnection with ChangeNotifier {
     if (can == CanGetScannedResults.yes) {
       var points = await WiFiScan.instance.getScannedResults();
       accessPoints = points.map((e) {
-        var chanel = "${e.channelWidth?.name ?? 20}".replaceAll("MHz", "");
+        var chanel = "${e.channelWidth?.name ?? 20}".replaceAll("mhz", "");
         return AccessPoint(
           ssid: e.ssid,
           bssid: e.bssid,
