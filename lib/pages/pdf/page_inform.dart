@@ -22,6 +22,7 @@ class PageInform extends StatefulWidget {
 
 class _PageInformState extends State<PageInform> {
   ProviderConnection pvC = ProviderConnection.of();
+  ProviderTest pvT = ProviderTest.of();
   ScreenshotController sVelocity = ScreenshotController();
   ScreenshotController sChanel = ScreenshotController();
   ScreenshotController sSignal = ScreenshotController();
@@ -45,7 +46,7 @@ class _PageInformState extends State<PageInform> {
         title: "Exportar PDF",
         onTap: () async {
           onLoad(true);
-          var args = Tuple7(
+          var args = Tuple8(
             pvC.connection,
             pvC.external,
             sVelocity,
@@ -53,6 +54,7 @@ class _PageInformState extends State<PageInform> {
             sSignal,
             pvC.lineBarsData,
             pvC.listSignal,
+            pvT.test,
           );
           // String? path = await compute(getPathPdf, args);
           String? path = await getPathPdf(args);
@@ -94,6 +96,8 @@ class _PageInformState extends State<PageInform> {
                   ),
                 ),
               ),
+              itemTextTitle("Test de velocidad"),
+              itemTest(pvT.test),
               itemTextTitle("Gráfica de canales"),
               Screenshot(
                 controller: sChanel,
@@ -177,14 +181,15 @@ class _PageInformState extends State<PageInform> {
 }
 
 Future<String?> getPathPdf(
-    Tuple7<
+    Tuple8<
             ItemConnection,
             ExternalConnection?,
             ScreenshotController,
             ScreenshotController,
             ScreenshotController,
             List<ItemChartChanel>,
-            List<ItemChartSignal>>
+            List<ItemChartSignal>,
+            ModelTest?>
         args) async {
   ItemConnection connection = args.item1;
   ExternalConnection? redInfo = args.item2;
@@ -193,8 +198,9 @@ Future<String?> getPathPdf(
   ScreenshotController sSignal = args.item5;
   List<ItemChartChanel> lineBarsData = args.item6;
   List<ItemChartSignal> listSignal = args.item7;
+  ModelTest? test = args.item8;
   return await generatePDF(connection, redInfo, sVelocity, sChanel, sSignal,
-      lineBarsData, listSignal);
+      lineBarsData, listSignal, test);
 }
 
 Future<String?> generatePDF(
@@ -205,6 +211,7 @@ Future<String?> generatePDF(
   ScreenshotController sSignal,
   List<ItemChartChanel> lineBarsData,
   List<ItemChartSignal> listSignal,
+  ModelTest? test,
 ) async {
   try {
     final pdf = pw.Document();
@@ -233,6 +240,12 @@ Future<String?> generatePDF(
       ]));
     }
     var bChanel = await sChanel.capture();
+    if (test != null) {
+      pdf.addPage(itemPagePdf([
+        itemTextTitlePdf("Test de velocidad"),
+        itemTestPdf(test),
+      ]));
+    }
     if (bChanel != null) {
       pdf.addPage(itemPagePdf([
         itemTextTitlePdf("Gráfica de señal"),
@@ -274,7 +287,7 @@ Future<String?> generatePDF(
   }
 }
 
-class Tuple7<A, B, C, D, E, F, G> {
+class Tuple8<A, B, C, D, E, F, G, H> {
   final A item1;
   final B item2;
   final C item3;
@@ -282,7 +295,8 @@ class Tuple7<A, B, C, D, E, F, G> {
   final E item5;
   final F item6;
   final G item7;
+  final H item8;
 
-  const Tuple7(this.item1, this.item2, this.item3, this.item4, this.item5,
-      this.item6, this.item7);
+  const Tuple8(this.item1, this.item2, this.item3, this.item4, this.item5,
+      this.item6, this.item7, this.item8);
 }

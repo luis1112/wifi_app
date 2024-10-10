@@ -1,49 +1,41 @@
 {
   "project_info": {
-    "project_number": "729887046063",
-    "project_id": "wifapp-55924",
-    "storage_bucket": "wifapp-55924.appspot.com"
+    "project_number": "1024721427599",
+    "project_id": "unl-analyzer",
+    "storage_bucket": "unl-analyzer.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:729887046063:android:9bd5b0a272fc02362d575a",
+        "mobilesdk_app_id": "1:1024721427599:android:4278ce8fdf1f6089e3a4fa",
         "android_client_info": {
           "package_name": "com.unl.wifi"
         }
       },
       "oauth_client": [
         {
-          "client_id": "729887046063-0v1vk5f4g2jde9a4ubmek8d76s3ahelg.apps.googleusercontent.com",
+          "client_id": "1024721427599-2858lml0nbs2vgm1dbcl7rc9ju8hhu0o.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.unl.wifi",
-            "certificate_hash": "377daa0c8dd2b6793aec739ef5274b33e51f9139"
+            "certificate_hash": "2a40eef7b0bcaf3b949444e0920a7984a874ceec"
           }
         },
         {
-          "client_id": "729887046063-hk4ih5teg8hn7dknhju9hpiburtuop8j.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.unl.wifi",
-            "certificate_hash": "76c7a28bb91d8a9a6e6658c3e9c8432b9c8829de"
-          }
-        },
-        {
-          "client_id": "729887046063-re2bqe4n6mb074josoj27vhol0if758v.apps.googleusercontent.com",
+          "client_id": "1024721427599-fvti668l7mhbp9hslofss3plsdm6kn76.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDIY5N9T7LVpwDI_kLe4GTIxuQPMCdTjMQ"
+          "current_key": "AIzaSyD-6bjCQKmc5DEvPGjk_Hsvyr05GsN4wDg"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "729887046063-re2bqe4n6mb074josoj27vhol0if758v.apps.googleusercontent.com",
+              "client_id": "1024721427599-fvti668l7mhbp9hslofss3plsdm6kn76.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

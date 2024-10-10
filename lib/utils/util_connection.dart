@@ -15,7 +15,7 @@ double calculateDistanceRouter(int rssi) {
 String? getChanelWidthWifi(List<AccessPoint> accessPoints, String bssid) {
   var v = accessPoints.where((e) => e.bssid == bssid).firstOrNull;
   var channelWidth = v?.channelWidth;
-  if (channelWidth != null) return "$channelWidth mhz";
+  if (channelWidth != null) return "$channelWidth MHz";
   return null;
 }
 

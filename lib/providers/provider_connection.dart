@@ -89,7 +89,7 @@ class ProviderConnection with ChangeNotifier {
       var freq = (v ?? 2422);
       var channel = calculateChannel(freq);
       connection = connection.copyWith(
-        freq: "${(freq / 1000).toStringAsFixed(2)} GHZ",
+        freq: "${(freq / 1000).toStringAsFixed(2)} GHz",
         chanel: channel,
       );
       notify();
@@ -168,9 +168,8 @@ class ProviderConnection with ChangeNotifier {
     var can = await WiFiScan.instance.canGetScannedResults();
     if (can == CanGetScannedResults.yes) {
       var points = await WiFiScan.instance.getScannedResults();
-      // int.parse("${e.channelWidth.name ??20}".replaceAll("mhz", ""));
       accessPoints = points.map((e) {
-        var chanel = "${e.channelWidth?.name ?? 20}".replaceAll("mhz", "");
+        var chanel = "${e.channelWidth?.name ?? 20}".replaceAll("MHz", "");
         return AccessPoint(
           ssid: e.ssid,
           bssid: e.bssid,
@@ -211,15 +210,11 @@ class ProviderConnection with ChangeNotifier {
     List<ItemChartChanel> listAux = [];
     for (var e in access) {
       var chanel = e.channelWidth;
-      // var chanel =
-      // int.parse("${e.channelWidth.name ??20}".replaceAll("mhz", ""));
       var color = generateUniqueRandomColor(
         listAux.map((e) => e.color).toList(),
         access.indexOf(e),
         e.level,
       );
-      // var eAux = lineBarsData.where((i) => i.item.ssid == e.ssid).firstOrNull;
-      // color = eAux?.color ?? color;
       var item = listChartChanel(color, chanel, e.level);
       if (item != null) {
         listAux.add(ItemChartChanel(e, item, color));
