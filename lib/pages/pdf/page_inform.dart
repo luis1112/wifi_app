@@ -36,7 +36,7 @@ class _PageInformState extends State<PageInform> {
   @override
   Widget build(BuildContext context) {
     pvC = ProviderConnection.of(context, true);
-    pvC.typeChanel = null;
+    // pvC.typeChanel = null;
     pvC.typeSignal = null;
 
     return Scaffold(
@@ -106,7 +106,7 @@ class _PageInformState extends State<PageInform> {
                   child: Padding(
                     padding: const EdgeInsets.only(
                         right: 20.0, top: 20.0, left: 20.0),
-                    child: LineChart(itemChartChanel(pvC.lineBarsData)),
+                    child: LineChart(itemChartChanel(pvC.lineBarsData, pvC.typeChannel)),
                   ),
                 ),
               ),

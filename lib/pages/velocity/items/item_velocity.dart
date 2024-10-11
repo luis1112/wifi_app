@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:wifi/docs.dart';
 
 Widget itemChartVelocity(
   List<FlSpot> listPoints,
@@ -36,6 +37,12 @@ Widget itemChartVelocity(
         rightTitles: const AxisTitles(),
         bottomTitles: AxisTitles(
           axisNameWidget: Text("Intensidad de señal: $percentage %"),
+          sideTitles: const SideTitles(
+            reservedSize: 44,
+            showTitles: true,
+            interval: 5,
+            getTitlesWidget: bottomTitleWidgetsSignal,
+          ),
         ),
         // leftTitles: const AxisTitles(),
         leftTitles: const AxisTitles(

@@ -9,8 +9,8 @@ Widget itemConnectionPdf(ItemConnection? c) {
     children: [
       itemTextGPdf("SSID:", c?.ssid),
       itemTextGPdf("BSSID:", c?.bssid),
-      itemTextGPdf("Señal:", "${c?.signal} dBm"),
-      itemTextGPdf("Frecuencia:", c?.freq),
+      itemTextGPdf("Rssi:", "${c?.signal} dBm"),
+      itemTextGPdf("Banda de frecuencia:", c?.freq),
       itemTextGPdf("Ancho de banda:", c?.chanelWidth),
       itemTextGPdf("Canal:", c?.chanel.toString()),
       Divider(),

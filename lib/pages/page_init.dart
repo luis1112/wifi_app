@@ -47,10 +47,10 @@ class _PageInitState extends State<PageInit> {
     listTabs = [
       ModelTab("Conexión", const PageConnection()),
       ModelTab("Externo", const PageExternal()),
-      ModelTab("Intensidad", const PageVelocity()),
+      ModelTab("Rssi red conectada", const PageVelocity()),
+      ModelTab("Rssi de las redes", const PageSignal()),
       ModelTab("Test Velocidad", const PageTest()),
       ModelTab("Canales", const PageChanel()),
-      ModelTab("Señal", const PageSignal()),
       ModelTab("Puntos de acceso", const PageAccessPoint()),
       // ModelTab("Informe", const PageInform()),
     ];

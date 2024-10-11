@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:wifi/docs.dart';
 
 Widget itemChartSignal(
@@ -32,6 +33,7 @@ Widget itemChartSignal(
             reservedSize: 44,
             showTitles: true,
             interval: 5,
+            getTitlesWidget: bottomTitleWidgetsSignal,
           ),
           axisNameWidget: Text("Tiempo(s)"),
         ),
@@ -54,6 +56,19 @@ Widget rightTitleWidgetsSignal(double value, TitleMeta meta) {
   if (value.toInt() == -95) text = '';
   if (value.toInt() == -30) text = 'dBm';
   return Text(text, textAlign: TextAlign.left);
+}
+
+Widget bottomTitleWidgetsSignal(double value, TitleMeta meta) {
+  DateTime now = DateTime.now();
+  var date = now.copyWith(second: now.second - value.toInt());
+  var text = DateFormat('HH:mm:ss').format(date);
+  return Text(
+    text,
+    textAlign: TextAlign.left,
+    style: const TextStyle(
+      fontSize: 10.0
+    ),
+  );
 }
 
 LineChartBarData itemLineSignal(List<FlSpot> points, Color color) {

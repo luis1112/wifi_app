@@ -2,7 +2,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:wifi/docs.dart';
 
-LineChartData itemChartChanel(List<ItemChartChanel> lineBarsData) {
+LineChartData itemChartChanel(
+    List<ItemChartChanel> lineBarsData, TypeChanel? type) {
   return LineChartData(
     gridData: const FlGridData(
       show: true,
@@ -10,7 +11,7 @@ LineChartData itemChartChanel(List<ItemChartChanel> lineBarsData) {
       horizontalInterval: 1,
       verticalInterval: 1,
     ),
-    titlesData: const FlTitlesData(
+    titlesData: FlTitlesData(
       show: true,
       topTitles: AxisTitles(
         sideTitles: SideTitles(showTitles: false),
@@ -22,7 +23,9 @@ LineChartData itemChartChanel(List<ItemChartChanel> lineBarsData) {
         sideTitles: SideTitles(
           showTitles: true,
           reservedSize: 30,
-          interval: 1,
+          interval: type == TypeChanel.ghz5 ? 1 : 1,
+          getTitlesWidget: (double value, TitleMeta meta) =>
+              bottomTitleWidgetsChanel(value, meta, type),
         ),
         axisNameWidget: Text("Canales"),
       ),
@@ -40,7 +43,7 @@ LineChartData itemChartChanel(List<ItemChartChanel> lineBarsData) {
       border: Border.all(color: const Color(0xff37434d)),
     ),
     minX: 0,
-    maxX:  14,
+    maxX: type == TypeChanel.ghz5 ? 26 : 14,
     minY: 0,
     maxY: 7,
     lineTouchData: const LineTouchData(enabled: false),

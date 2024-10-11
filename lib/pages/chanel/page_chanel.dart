@@ -26,12 +26,12 @@ class _PageChanelState extends State<PageChanel> {
                 Expanded(
                   child: BtnC(
                     title: "2.4 GHZ",
-                    isActive: pvC.typeChanel == TypeChanel.ghz2,
+                    isActive: pvC.typeChannel == TypeChanel.ghz2,
                     onTap: () {
-                      if (pvC.typeChanel == TypeChanel.ghz2) {
-                        pvC.typeChanel = null;
+                      if (pvC.typeChannel == TypeChanel.ghz2) {
+                        pvC.typeChannel = null;
                       } else {
-                        pvC.typeChanel = TypeChanel.ghz2;
+                        pvC.typeChannel = TypeChanel.ghz2;
                       }
                       setState(() {});
                     },
@@ -41,12 +41,12 @@ class _PageChanelState extends State<PageChanel> {
                 Expanded(
                   child: BtnC(
                     title: "5GHZ",
-                    isActive: pvC.typeChanel == TypeChanel.ghz5,
+                    isActive: pvC.typeChannel == TypeChanel.ghz5,
                     onTap: () {
-                      if (pvC.typeChanel == TypeChanel.ghz5) {
-                        pvC.typeChanel = null;
+                      if (pvC.typeChannel == TypeChanel.ghz5) {
+                        pvC.typeChannel = null;
                       } else {
-                        pvC.typeChanel = TypeChanel.ghz5;
+                        pvC.typeChannel = TypeChanel.ghz5;
                       }
                       setState(() {});
                     },
@@ -70,7 +70,7 @@ class _PageChanelState extends State<PageChanel> {
               children: [
                 SizedBox(
                   height: 300.0,
-                  child: LineChart(itemChartChanel(pvC.lineBarsData)),
+                  child: LineChart(itemChartChanel(pvC.lineBarsData, pvC.typeChannel)),
                 ),
                 if (pvC.isActiveNetwork)
                   Container(
