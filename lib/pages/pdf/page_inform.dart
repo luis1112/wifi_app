@@ -36,8 +36,6 @@ class _PageInformState extends State<PageInform> {
   @override
   Widget build(BuildContext context) {
     pvC = ProviderConnection.of(context, true);
-    // pvC.typeChanel = null;
-    pvC.typeSignal = null;
 
     return Scaffold(
       body: itemPdf(),
@@ -141,7 +139,7 @@ class _PageInformState extends State<PageInform> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.asset(
-            "assets/image/icon.png",
+            "assets/image/logo_horizontal.png",
             height: 60.0,
           ),
           itemTextTitle("Universidad Nacional de Loja"),

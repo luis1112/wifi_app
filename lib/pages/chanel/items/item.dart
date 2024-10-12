@@ -13,10 +13,10 @@ LineChartData itemChartChanel(
     ),
     titlesData: FlTitlesData(
       show: true,
-      topTitles: AxisTitles(
+      topTitles: const AxisTitles(
         sideTitles: SideTitles(showTitles: false),
       ),
-      rightTitles: AxisTitles(
+      rightTitles: const AxisTitles(
         sideTitles: SideTitles(showTitles: false),
       ),
       bottomTitles: AxisTitles(
@@ -27,9 +27,9 @@ LineChartData itemChartChanel(
           getTitlesWidget: (double value, TitleMeta meta) =>
               bottomTitleWidgetsChanel(value, meta, type),
         ),
-        axisNameWidget: Text("Canales"),
+        axisNameWidget: const Text("Canales"),
       ),
-      leftTitles: AxisTitles(
+      leftTitles: const AxisTitles(
         sideTitles: SideTitles(
           showTitles: true,
           reservedSize: 30,
