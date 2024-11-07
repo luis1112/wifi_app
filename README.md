@@ -28,3 +28,7 @@ samples, guidance on mobile development, and a full API reference.
 - keytool -list -v -keystore "%USERPROFILE%\.android\debug.keystore" -alias androiddebugkey -storepass android -keypass android
 # For compile
 - flutter build apk --release --target-platform android-arm64 --split-per-abi
+
+# Credentials
+- Alias: UNL-Analyzer
+- Password: UNL-Analyzer
