@@ -89,7 +89,7 @@ class ProviderConnection with ChangeNotifier {
       var freq = (v ?? 2422);
       var channel = calculateChannel(freq);
       connection = connection.copyWith(
-        freq: "${(freq / 1000).toStringAsFixed(2)} GHz",
+        freq: "${(freq / 1000).toStringAsFixed(3)} GHz",
         chanel: channel,
       );
       notify();

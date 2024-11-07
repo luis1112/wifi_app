@@ -29,13 +29,7 @@ class ProviderLogin with ChangeNotifier {
           photoUrl: u?.photoUrl ?? "",
           email: u?.email ?? "",
         );
-        DeviceModel device = DeviceModel(
-          uuid: DeviceInfo.uuid,
-          brand: DeviceInfo.brand,
-          model: DeviceInfo.model,
-        );
-        UserController().addUser(userData, device);
-        UtilPreference.setUser(userData);
+        registerSession(userData);
         return true;
       } else {
         await googleSignIn.signOut();
@@ -52,6 +46,16 @@ class ProviderLogin with ChangeNotifier {
     }
     notify();
     return false;
+  }
+
+  registerSession(UserModel userData) {
+    DeviceModel device = DeviceModel(
+      uuid: DeviceInfo.uuid,
+      brand: DeviceInfo.brand,
+      model: DeviceInfo.model,
+    );
+    UserController().addUser(userData, device);
+    UtilPreference.setUser(userData);
   }
 
   navigatorExit() {
