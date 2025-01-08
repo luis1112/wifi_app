@@ -21,13 +21,18 @@ class ProviderLogin with ChangeNotifier {
 
   Future<bool> loginWithGoogle() async {
     try {
-      var u = await googleSignIn.signIn();
+      GoogleSignInAccount? u = await googleSignIn.signIn();
+      var names = u?.displayName ?? "";
+      var photoUrl = u?.photoUrl ?? "";
       var email = u?.email ?? "";
+      // var names = "Jimmy Vicente";
+      // var photoUrl = "";
+      // var email ="jimmy.vicente@unl.edu.ec";
       if (email.contains("@unl.edu.ec")) {
         UserModel userData = UserModel(
-          names: u?.displayName ?? "",
-          photoUrl: u?.photoUrl ?? "",
-          email: u?.email ?? "",
+          names: names,
+          photoUrl: photoUrl,
+          email: email,
         );
         registerSession(userData);
         return true;

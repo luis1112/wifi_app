@@ -21,7 +21,7 @@ String? getChanelWidthWifi(List<AccessPoint> accessPoints, String bssid) {
 
 int calculateChannel(int frequency) {
   if (frequency >= 2412 && frequency <= 2484) {
-    return ((frequency - 2412) ~/ 5 + 3).toInt();
+    return ((frequency - 2412) ~/ 5 + 1).toInt();
   } else if (frequency >= 5180 && frequency <= 5825) {
     return (((frequency - 5180) ~/ 5) + 36).toInt();
   }
