@@ -145,7 +145,7 @@ class ProviderConnection with ChangeNotifier {
     Connectivity().onConnectivityChanged.listen((event) async {
       mobileDataConnected = event.contains(ConnectivityResult.mobile);
       if (event.contains(ConnectivityResult.wifi)) {
-        UtilInfoDevice.getAllInfoDevice();
+        await UtilInfoDevice.getAllInfoDevice(isResetInfo: true);
         startScan();
         getDataConnection();
         wifiConnected = true;
