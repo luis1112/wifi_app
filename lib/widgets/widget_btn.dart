@@ -41,9 +41,9 @@ class BtnC extends StatelessWidget {
       width: width,
       child: ElevatedButton(
         style: ButtonStyle(
-          elevation: MaterialStateProperty.all(0.0),
-          backgroundColor: MaterialStateProperty.all(color ?? colorAux),
-          shape: MaterialStateProperty.all(RoundedRectangleBorder(
+          elevation: WidgetStateProperty.all(0.0),
+          backgroundColor: WidgetStateProperty.all(color ?? colorAux),
+          shape: WidgetStateProperty.all(RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(radius),
             side: BorderSide(
               color: colorBorderSide ?? colorAux,

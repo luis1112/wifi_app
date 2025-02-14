@@ -42,9 +42,9 @@ LineChartBarData? listChartChanel(
 
 Color generateUniqueRandomColor(List<Color> colors, int index, int seed) {
   final random = Random((seed * -1) + (index * 10));
-  final r = random.nextInt(256); // Rojo
-  final g = random.nextInt(256); // Verde
-  final b = random.nextInt(256); // Azul
+  final r = random.nextInt(256);
+  final g = random.nextInt(256);
+  final b = random.nextInt(256);
   var color = Color.fromARGB(255, r, g, b);
   if (colors.contains(color)) {
     color = color.withRed(index * 10);

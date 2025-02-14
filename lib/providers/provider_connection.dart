@@ -197,7 +197,7 @@ class ProviderConnection with ChangeNotifier {
     });
   }
 
-  obtainChartChanel() {
+  obtainChartChanel() async {
     var access = accessPoints.where((e) {
       return e.ssid.trim().isNotEmpty;
     }).toList();
@@ -210,11 +210,15 @@ class ProviderConnection with ChangeNotifier {
     List<ItemChartChanel> listAux = [];
     for (var e in access) {
       var chanel = e.chanel;
+      var key = 'color-${e.ssid}';
+      var colorHex = await getStringPreference(key);
       var color = generateUniqueRandomColor(
         listAux.map((e) => e.color).toList(),
         access.indexOf(e),
         e.level,
       );
+      if (colorHex != null) color = HexColor(colorHex);
+      setStringPreference(key, UtilTheme.toHex(color));
       var item = listChartChanel(color, chanel, e.level, typeChannel);
       if (item != null) {
         listAux.add(ItemChartChanel(e, item, color));

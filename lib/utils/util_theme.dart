@@ -15,6 +15,15 @@ class UtilTheme {
   //charts
   static const Color contentColorBlue = Color(0xFF2196F3);
   static const Color contentColorPink = Color(0xFFFF3AF2);
+
+
+  static String toHex(Color color, {bool leadingHashSign = true}) {
+    String hex = '${color.red.toRadixString(16).padLeft(2, '0')}'
+        '${color.green.toRadixString(16).padLeft(2, '0')}'
+        '${color.blue.toRadixString(16).padLeft(2, '0')}';
+    return (leadingHashSign ? '#' : '') + hex.toUpperCase();
+  }
+
 }
 
 ThemeMode themeModeApp = ThemeMode.light;
@@ -50,9 +59,22 @@ class HexColor extends Color {
   static int _getColorFromHex(String hexColor) {
     hexColor = hexColor.toUpperCase().replaceAll("#", "");
     if (hexColor.length == 6) hexColor = "FF$hexColor";
-    int result = int.parse(hexColor, radix: 16);
-    return result;
+    return int.parse(hexColor, radix: 16);
   }
 
   HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
+
+  /// Convierte el color a una cadena hexadecimal
+  String toHex({bool includeAlpha = true}) {
+    String alpha = includeAlpha ? alphaValue.toRadixString(16).padLeft(2, '0') : "";
+    String red = redValue.toRadixString(16).padLeft(2, '0');
+    String green = greenValue.toRadixString(16).padLeft(2, '0');
+    String blue = blueValue.toRadixString(16).padLeft(2, '0');
+    return "#$alpha$red$green$blue".toUpperCase();
+  }
+
+  int get alphaValue => (value >> 24) & 0xFF;
+  int get redValue => (value >> 16) & 0xFF;
+  int get greenValue => (value >> 8) & 0xFF;
+  int get blueValue => value & 0xFF;
 }
