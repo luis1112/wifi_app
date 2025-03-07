@@ -5,17 +5,156 @@ import 'package:flutter/material.dart';
 import 'package:wifi/docs.dart';
 
 LineChartBarData? listChartChanel(
-    Color color, int chanel, int level, TypeChanel? type) {
+    Color color, int chanel, int level, int channelWidth, TypeChanel? type) {
   var f = 100 - (level * -1);
   var y = (5.3 * f) / 60;
 
   if (type == TypeChanel.ghz5) {
     var chanelAux = channels5G[chanel];
     if (chanelAux == null) return null;
-    var x1 = chanelAux - 2.0;
-    var x2 = chanelAux - 1.0;
-    var x3 = chanelAux + 1.0;
-    var x4 = chanelAux + 2.0;
+    Map<int, List<double>> overlappingChannels5G20MHz = {
+      36: [36, 36],
+      40: [40, 40],
+      44: [44, 44],
+      48: [48, 48],
+      52: [52, 52],
+      56: [56, 56],
+      60: [60, 60],
+      64: [64, 64],
+      100: [100, 100],
+      104: [104, 104],
+      108: [108, 108],
+      112: [112, 112],
+      116: [116, 116],
+      120: [120, 120],
+      124: [124, 124],
+      128: [128, 128],
+      132: [132, 132],
+      136: [136, 136],
+      140: [140, 140],
+      144: [144, 144],
+      149: [149, 149],
+      153: [153, 153],
+      157: [157, 157],
+      161: [161, 161],
+      165: [165, 165],
+    };
+    Map<int, List<double>> overlappingChannels5G40MHz = {
+      36: [36, 40],
+      40: [36, 44],
+      44: [40, 48],
+      48: [44, 48],
+      52: [52, 56],
+      56: [52, 60],
+      60: [56, 64],
+      64: [60, 64],
+      100: [100, 104],
+      104: [100, 108],
+      108: [104, 112],
+      112: [108, 112],
+      116: [116, 120],
+      120: [116, 124],
+      124: [120, 128],
+      128: [124, 128],
+      132: [132, 136],
+      136: [132, 140],
+      140: [136, 144],
+      144: [140, 144],
+      149: [149, 153],
+      153: [149, 157],
+      157: [153, 161],
+      161: [157, 161],
+      165: [165, 165],
+    };
+    Map<int, List<double>> overlappingChannels5G80MHz = {
+      36: [36, 48],
+      40: [36, 48],
+      44: [36, 48],
+      48: [36, 48],
+      52: [52, 64],
+      56: [52, 64],
+      60: [52, 64],
+      64: [52, 64],
+      100: [100, 112],
+      104: [100, 112],
+      108: [100, 112],
+      112: [100, 112],
+      116: [116, 128],
+      120: [116, 128],
+      124: [116, 128],
+      128: [116, 128],
+      132: [132, 144],
+      136: [132, 144],
+      140: [132, 144],
+      144: [132, 144],
+      149: [149, 161],
+      153: [149, 161],
+      157: [149, 161],
+      161: [149, 161],
+      165: [165, 165],
+    };
+    Map<int, List<double>> overlappingChannels5G160MHz = {
+      36: [36, 64],
+      40: [36, 64],
+      44: [36, 64],
+      48: [36, 64],
+      52: [36, 64],
+      56: [36, 64],
+      60: [36, 64],
+      64: [36, 64],
+
+      100: [100, 128],
+      104: [100, 128],
+      108: [100, 128],
+      112: [100, 128],
+      116: [100, 128],
+      120: [100, 128],
+      124: [100, 128],
+      128: [100, 128],
+
+      132: [132, 144],
+      // En algunos países 160 MHz puede no usar esta parte.
+      136: [132, 144],
+      140: [132, 144],
+      144: [132, 144],
+
+      149: [149, 165],
+      // Este es más raro en 160 MHz, pero se puede usar en algunos lugares.
+      153: [149, 165],
+      157: [149, 165],
+      161: [149, 165],
+      165: [149, 165],
+    };
+
+    var minChanel = overlappingChannels5G20MHz[chanel]?[0];
+    var maxChanel = overlappingChannels5G20MHz[chanel]?[1];
+    if (channelWidth == 40) {
+      minChanel = overlappingChannels5G40MHz[chanel]?[0];
+      maxChanel = overlappingChannels5G40MHz[chanel]?[1];
+    } else if (channelWidth == 80) {
+      minChanel = overlappingChannels5G80MHz[chanel]?[0];
+      maxChanel = overlappingChannels5G80MHz[chanel]?[1];
+    } else if (channelWidth >= 160) {
+      minChanel = overlappingChannels5G160MHz[chanel]?[0];
+      maxChanel = overlappingChannels5G160MHz[chanel]?[1];
+    }
+    if (minChanel == null || maxChanel == null) return null;
+    minChanel = channels5G[minChanel];
+    maxChanel = channels5G[maxChanel];
+    if (minChanel == null || maxChanel == null) return null;
+    var inter = (maxChanel - minChanel) / 4;
+
+    var x1 = minChanel;
+    var x2 = minChanel + inter;
+    var x3 = maxChanel - inter;
+    var x4 = maxChanel;
+
+    // printC("x1 = $x1\nx4 =$x4");
+
+    // var x1 = chanelAux - 1.0;
+    // var x2 = chanelAux - 0.5;
+    // var x3 = chanelAux + 0.5;
+    // var x4 = chanelAux + 1.0;
     return itemBarDataChanel([
       FlSpot(x1, 0),
       FlSpot(x2, y),
@@ -26,10 +165,33 @@ LineChartBarData? listChartChanel(
 
   var channels2G = List.generate(14, (i) => i + 1);
   if (channels2G.contains(chanel)) {
-    var x1 = chanel - 2.0;
-    var x2 = chanel - 1.0;
-    var x3 = chanel + 1.0;
-    var x4 = chanel + 2.0;
+    //canales solapadas de acuerdo a canal y ancho de banda
+    Map<int, List<double>> overlappingChannels = {
+      1: [2, 5],
+      2: [1, 6],
+      3: [1, 7],
+      4: [1, 8],
+      5: [1, 9],
+      6: [2, 10],
+      7: [3, 11],
+      8: [4, 12],
+      9: [5, 13],
+      10: [6, 14],
+      11: [7, 14],
+      12: [8, 14],
+      13: [9, 14],
+      14: [10, 13]
+    };
+    var minChanel = overlappingChannels[chanel]?[0];
+    var maxChanel = overlappingChannels[chanel]?[1];
+    if (minChanel == null || maxChanel == null) return null;
+    var inter = (maxChanel - minChanel) / 4;
+
+    var x1 = minChanel;
+    var x2 = minChanel + inter;
+    var x3 = maxChanel - inter;
+    var x4 = maxChanel;
+
     return itemBarDataChanel([
       FlSpot(x1, 0),
       FlSpot(x2, y),
@@ -119,7 +281,7 @@ Widget bottomTitleWidgetsChanel(
   return Text(text, textAlign: TextAlign.left);
 }
 
-Map<int, int> channels5G = {
+Map<int, double> channels5G = {
   36: 2,
   40: 3,
   44: 4,

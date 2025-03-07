@@ -65,12 +65,13 @@ class _PageChanelState extends State<PageChanel> {
                 ),
               ],
             ),
-            const SizedBox(height: 20.0),
+            const SizedBox(height: 30.0),
             Stack(
               children: [
                 SizedBox(
-                  height: 300.0,
-                  child: LineChart(itemChartChanel(pvC.lineBarsData, pvC.typeChannel)),
+                  height: MediaQuery.of(context).size.height / 2.2,
+                  child: LineChart(
+                      itemChartChanel(pvC.lineBarsData, pvC.typeChannel)),
                 ),
                 if (pvC.isActiveNetwork)
                   Container(

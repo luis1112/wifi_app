@@ -24,9 +24,6 @@ class _PageInitState extends State<PageInit> {
       if (user != null) {
         pvL.user = user!;
         pvC.initListen();
-        pvC.initChanel();
-        pvC.initVelocity();
-        pvC.initSignal();
       }
     });
     super.initState();

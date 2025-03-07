@@ -114,9 +114,9 @@ class UtilInfoDevice {
     printC(DeviceInfo().toString());
   }
 
-  static Future<ExternalConnection?> getRedInfo(String ipPublic) async {
+  static Future<ExternalConnection?> getRedInfo() async {
     try {
-      var req = await http.get(Uri.parse("https://ipwho.is/$ipPublic"));
+      var req = await http.get(Uri.parse("https://ipwho.is"));
       var body = jsonDecode(req.body);
       return ExternalConnection.fromJson(body);
     } catch (err) {

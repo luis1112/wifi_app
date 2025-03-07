@@ -56,6 +56,10 @@ class ProviderConnection with ChangeNotifier {
   initListen() {
     initEnabled();
     initConnected();
+    //listen graph
+    initChanel();
+    initVelocity();
+    initSignal();
   }
 
   int limit = 30;
@@ -87,7 +91,7 @@ class ProviderConnection with ChangeNotifier {
     //freq
     WiFiForIoTPlugin.getFrequency().then((v) {
       var freq = (v ?? 2422);
-      var channel = calculateChannel(freq);
+      var channel = calculateChannel(freq, false);
       connection = connection.copyWith(
         freq: "${(freq / 1000).toStringAsFixed(3)} GHz",
         chanel: channel,
@@ -149,7 +153,7 @@ class ProviderConnection with ChangeNotifier {
         startScan();
         getDataConnection();
         wifiConnected = true;
-        external = await UtilInfoDevice.getRedInfo(DeviceInfo.ipPublic);
+        external = await UtilInfoDevice.getRedInfo();
         // test
         ProviderTest.of().startScanning();
       } else {
@@ -177,7 +181,7 @@ class ProviderConnection with ChangeNotifier {
           level: e.level,
           channelWidth: parseInt(chanel, 20),
           frequency: e.frequency,
-          chanel: calculateChannel(e.frequency),
+          chanel: calculateChannel(e.frequency, false),
           centerFrequency0: e.centerFrequency0 ?? 2400,
           centerFrequency1: e.centerFrequency1 ?? 2400,
           venueName: e.venueName ?? "",
@@ -209,7 +213,7 @@ class ProviderConnection with ChangeNotifier {
     }).toList();
     List<ItemChartChanel> listAux = [];
     for (var e in access) {
-      var chanel = e.chanel;
+      var channel = calculateChannel(e.frequency, true);
       var key = 'color-${e.ssid}';
       var colorHex = await getStringPreference(key);
       var color = generateUniqueRandomColor(
@@ -219,7 +223,8 @@ class ProviderConnection with ChangeNotifier {
       );
       if (colorHex != null) color = HexColor(colorHex);
       setStringPreference(key, UtilTheme.toHex(color));
-      var item = listChartChanel(color, chanel, e.level, typeChannel);
+      var item =
+          listChartChanel(color, channel, e.level, e.channelWidth, typeChannel);
       if (item != null) {
         listAux.add(ItemChartChanel(e, item, color));
       }
