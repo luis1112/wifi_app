@@ -44,7 +44,7 @@ class _PageAccessPointState extends State<PageAccessPoint> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text("CH ${e.chanel}"),
-                Text("${(e.frequency / 1000).toStringAsFixed(2)}GHz"),
+                Text("${(e.frequency / 1000).toStringAsFixed(4)}GHz"),
               ],
             ),
             onTap: () => showDialog(

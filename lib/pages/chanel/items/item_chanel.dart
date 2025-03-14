@@ -203,15 +203,73 @@ LineChartBarData? listChartChanel(
 }
 
 Color generateUniqueRandomColor(List<Color> colors, int index, int seed) {
-  final random = Random((seed * -1) + (index * 10));
-  final r = random.nextInt(256);
-  final g = random.nextInt(256);
-  final b = random.nextInt(256);
-  var color = Color.fromARGB(255, r, g, b);
-  if (colors.contains(color)) {
-    color = color.withRed(index * 10);
+  // final random = Random((seed * -1) + (index * 10));
+  final random = Random();
+
+  // Lista de colores únicos y bien diferenciados
+  const List<Color> uniqueColors = [
+    Color(0xFFFF0000), // Rojo
+    Color(0xFFFFA500), // Naranja
+    Color(0xFFFFFF00), // Amarillo
+    Color(0xFF00FF00), // Verde
+    Color(0xFF00FFFF), // Cian
+    Color(0xFF0000FF), // Azul
+    Color(0xFF800080), // Púrpura
+    Color(0xFFFF00FF), // Magenta
+    Color(0xFF964B00), // Marrón
+    Color(0xFF808080), // Gris
+    Color(0xFFFFFFFF), // Blanco
+  ];
+
+  // Filtrar los colores no utilizados
+  final availableColors =
+      uniqueColors.where((c) => !colors.contains(c)).toList();
+  Color color;
+
+  if (availableColors.isNotEmpty) {
+    // Si hay colores únicos disponibles, elige uno al azar
+    color = availableColors[random.nextInt(availableColors.length)];
+  } else {
+    // Si se agotan, generar un color completamente diferente
+    color = _generateCompletelyDifferentColor(colors, random);
   }
+
   return color;
+}
+
+Color _generateCompletelyDifferentColor(List<Color> colors, Random random) {
+  Color color;
+  const saturation = 0.9;
+  const lightness = 0.5;
+  const minDifference = 150; // Diferencia mínima para asegurar que sea único
+  int attempts = 0;
+  const maxAttempts = 100;
+
+  do {
+    final hue = random.nextInt(360);
+    color =
+        HSLColor.fromAHSL(1.0, hue.toDouble(), saturation, lightness).toColor();
+    attempts++;
+
+    // Si se alcanzan muchos intentos sin éxito, fuerza un cambio drástico
+    if (attempts >= maxAttempts) {
+      final forcedHue = (hue + 180 + random.nextInt(90)) % 360;
+      color =
+          HSLColor.fromAHSL(1.0, forcedHue.toDouble(), saturation, lightness)
+              .toColor();
+      break;
+    }
+  } while (colors.any((c) => _isColorSimilar(c, color, minDifference)));
+
+  return color;
+}
+
+bool _isColorSimilar(Color c1, Color c2, int threshold) {
+  final rDiff = c1.red - c2.red;
+  final gDiff = c1.green - c2.green;
+  final bDiff = c1.blue - c2.blue;
+  final distance = sqrt(rDiff * rDiff + gDiff * gDiff + bDiff * bDiff);
+  return distance < threshold;
 }
 
 LineChartBarData itemBarDataChanel(List<FlSpot> list, Color color) {
@@ -220,13 +278,13 @@ LineChartBarData itemBarDataChanel(List<FlSpot> list, Color color) {
     spots: list,
     isCurved: true,
     gradient: LinearGradient(colors: colors),
-    barWidth: 1,
+    barWidth: 1.8,
     isStrokeCapRound: true,
     dotData: const FlDotData(show: false),
     belowBarData: BarAreaData(
       show: true,
       gradient: LinearGradient(
-        colors: colors.map((color) => color.withOpacity(0.15)).toList(),
+        colors: colors.map((color) => color.withOpacity(0.05)).toList(),
       ),
     ),
   );

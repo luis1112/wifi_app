@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -93,7 +94,7 @@ class ProviderConnection with ChangeNotifier {
       var freq = (v ?? 2422);
       var channel = calculateChannel(freq, false);
       connection = connection.copyWith(
-        freq: "${(freq / 1000).toStringAsFixed(3)} GHz",
+        freq: "${(freq / 1000).toStringAsFixed(4)} GHz",
         chanel: channel,
       );
       notify();
@@ -215,14 +216,19 @@ class ProviderConnection with ChangeNotifier {
     for (var e in access) {
       var channel = calculateChannel(e.frequency, true);
       var key = 'color-${e.ssid}';
+      // await deleteStringPreference(key);
       var colorHex = await getStringPreference(key);
-      var color = generateUniqueRandomColor(
-        listAux.map((e) => e.color).toList(),
-        access.indexOf(e),
-        e.level,
-      );
-      if (colorHex != null) color = HexColor(colorHex);
-      setStringPreference(key, UtilTheme.toHex(color));
+      Color color;
+      if (colorHex == null) {
+        color = generateUniqueRandomColor(
+          listAux.map((e) => e.color).toList(),
+          access.indexOf(e),
+          e.level,
+        );
+        setStringPreference(key, UtilTheme.toHex(color));
+      } else {
+        color = HexColor(colorHex);
+      }
       var item =
           listChartChanel(color, channel, e.level, e.channelWidth, typeChannel);
       if (item != null) {

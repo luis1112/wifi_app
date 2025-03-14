@@ -33,3 +33,8 @@ Future<String?> getStringPreference(String key) async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   return prefs.getString(key);
 }
+
+Future<bool> deleteStringPreference(String key) async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.remove(key);
+}
